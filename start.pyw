@@ -43,7 +43,7 @@ def execute_function():
     sock.send(f"PRIVMSG #{CHANNEL_NAME} :!watchtime\r\n".encode("utf-8"))
     string = receive_irc_messages(sock, "YOUR_TWITCH_USERNAME has spent ")
     
-    match = re.search(r'(\d+) months and (\d+) (days|hours)', string)
+    match = re.search(r'(\d+) months and (\d+) (day|days|hour|hours)', string)
 
     if match:
         # Extract the months and days from the match object
@@ -53,9 +53,9 @@ def execute_function():
 
         # Convert the months and days to hours
         hours = months * 30 * 24 
-        if time_unit == "days":
+        if time_unit in ["day", "days"]:
             hours += time_amount * 24
-        elif time_unit == "hours":
+        elif time_unit in ["hour", "hours"]:
             hours += time_amount
     else:
         print("No match found. Cannot update presence.")
